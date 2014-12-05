@@ -1,0 +1,17 @@
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2.1'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+ 
+    repositories {
+       jcenter()
+    }
+
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+    version = '0.9.1'
+}
