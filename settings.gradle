@@ -1,2 +1,3 @@
 include \
-    "spring-boot-jsf"
+    "spring-boot-jsf",
+	"spring-boot-web"
