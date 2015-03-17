@@ -3,9 +3,9 @@ spring-boot-capgemini
 
 Core Developers
 =====================
-Russ Hart
-Greg Wolverson
-Craig Williams
+* [Russell Hart](https://github.com/rhart)
+* [Greg Wolverson] (https//github.com/gwolverson)
+* [Craig Williams] 
 
 Contributors
 =====================
