@@ -12,5 +12,6 @@ Some of the Starters are integrations to technologies not currently provided out
 * [Russell Hart](https://github.com/rhart)
 * [Greg Wolverson] (https://github.com/gwolverson)
 * [Craig Williams] (https://github.com/craigwilliams84)
+* [Gareth Sullivan](https://github.com/sinsir)
 
 ##Contributors
