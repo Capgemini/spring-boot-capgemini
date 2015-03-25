@@ -1,4 +1,4 @@
-https://circleci.com/gh/Capgemini/spring-boot-capgemini.png?circle-token=9d20343e9806ad4e5ac6cae2b29c619ff8b28648
+[![Circle CI](https://circleci.com/gh/Capgemini/spring-boot-capgemini/tree/master.svg?style=svg&circle-token=9d20343e9806ad4e5ac6cae2b29c619ff8b28648)](https://circleci.com/gh/Capgemini/spring-boot-capgemini/tree/master)
 
 # Spring Boot - Capgemini
 
