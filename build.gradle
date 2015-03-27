@@ -2,14 +2,39 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:" + springBootVersion)
+    }
+}
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
  
     repositories {
+	   mavenCentral()
        jcenter()
     }
+	
+	dependencies {
+		// tag::jetty[]
+		compile("org.springframework.boot:spring-boot-starter-web:" + springBootVersion) {
+			exclude module: "spring-boot-starter-tomcat"
+		}
+    
+		//compile("org.springframework.boot:spring-boot-starter-jetty:1.2.2.RELEASE")
+		compile("org.springframework.boot:spring-boot-starter-jetty:" + springBootVersion)
+		// end::jetty[]
+		// tag::actuator[]
+		compile("org.springframework.boot:spring-boot-starter-actuator:" + springBootVersion)
+		// end::actuator[]
+		testCompile("org.springframework.boot:spring-boot-starter-test:" + springBootVersion)
+	}
 
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
