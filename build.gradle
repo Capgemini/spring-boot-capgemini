@@ -7,7 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:" + springBootVersion)
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
     }
 }
 
@@ -17,23 +17,20 @@ subprojects {
     apply plugin: 'idea'
  
     repositories {
-	   mavenCentral()
        jcenter()
     }
 	
 	dependencies {
-		// tag::jetty[]
-		compile("org.springframework.boot:spring-boot-starter-web:" + springBootVersion) {
+		compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {
 			exclude module: "spring-boot-starter-tomcat"
 		}
     
-		//compile("org.springframework.boot:spring-boot-starter-jetty:1.2.2.RELEASE")
-		compile("org.springframework.boot:spring-boot-starter-jetty:" + springBootVersion)
-		// end::jetty[]
-		// tag::actuator[]
-		compile("org.springframework.boot:spring-boot-starter-actuator:" + springBootVersion)
-		// end::actuator[]
-		testCompile("org.springframework.boot:spring-boot-starter-test:" + springBootVersion)
+		compile("org.springframework.boot:spring-boot-starter-jetty:$springBootVersion")
+
+		compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+		
+		testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+		testCompile("org.spockframework:spock-spring:$spockSpringVersion")
 	}
 
     sourceCompatibility = 1.7

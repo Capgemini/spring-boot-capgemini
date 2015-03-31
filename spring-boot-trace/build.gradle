@@ -1,5 +1,5 @@
 archivesBaseName = 'spring-boot-starter-trace'
 
 dependencies {
-	compile("org.springframework.boot:spring-boot-starter-aop:" + springBootVersion)
+	compile("org.springframework.boot:spring-boot-starter-aop:$springBootVersion")
 }
