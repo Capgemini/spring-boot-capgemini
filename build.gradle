@@ -14,6 +14,7 @@ subprojects {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
     apply from: "../gradle/codenarc.gradle"
+    apply from: "../gradle/checkstyle.gradle"
 
     repositories {
        jcenter()
