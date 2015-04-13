@@ -1,10 +1,9 @@
 package com.capgemini.boot.trace;
 
+import com.capgemini.boot.trace.annotation.EnableTraceLogger;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Configuration;
-
-import com.capgemini.boot.trace.annotation.EnableTraceLogger;
 
 @Configuration
 @EnableAutoConfiguration
