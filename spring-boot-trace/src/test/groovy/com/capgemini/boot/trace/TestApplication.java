@@ -16,16 +16,38 @@
 package com.capgemini.boot.trace;
 
 import com.capgemini.boot.trace.annotation.EnableTraceLogger;
+import com.capgemini.boot.trace.annotation.Trace;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Configuration
+@RestController
 @EnableAutoConfiguration
 @EnableTraceLogger
 public class TestApplication {
-    public static void main(String[] args) {
-        new SpringApplicationBuilder(TestApplication.class).properties(
-            "spring.application.name=traceLogger").run(args);
+    @Autowired
+    Foo foo;
+
+    @RequestMapping("/")
+    String home() {
+        return foo.getMessage();
+    }
+
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(TestApplication.class, args);
+    }
+
+    @Component
+    public class Foo {
+        @Autowired
+        public Foo() { }
+
+        @Trace
+        String getMessage() {
+            return "Hello World!";
+        }
     }
 }
