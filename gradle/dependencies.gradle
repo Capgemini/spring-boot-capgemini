@@ -1,0 +1,10 @@
+ext {
+    commonVersions = [
+        springBoot: "1.2.2.RELEASE",
+        spock: "1.0-groovy-2.4",
+    ]
+
+    commonDependencies = [
+        spockSpring: "org.spockframework:spock-spring:${commonVersions.spock}"
+    ]
+}

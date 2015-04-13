@@ -2,38 +2,27 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'
 }
 
+apply from: "gradle/dependencies.gradle"
+
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
-    }
 }
 
 subprojects {
+    apply plugin: "base"
     apply plugin: 'java'
+    apply plugin: "groovy"
     apply plugin: 'eclipse'
     apply plugin: 'idea'
- 
+
     repositories {
        jcenter()
     }
-	
-	dependencies {
-		compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {
-			exclude module: "spring-boot-starter-tomcat"
-		}
-    
-		compile("org.springframework.boot:spring-boot-starter-jetty:$springBootVersion")
 
-		compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
-		
-		testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-		testCompile("org.spockframework:spock-spring:$spockSpringVersion")
-	}
+    dependencies {
+        testCompile commonDependencies.spockSpring
+    }
 
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
-    version = '0.9.1'
+    version = '0.9.1-SNAPSHOT'
 }
