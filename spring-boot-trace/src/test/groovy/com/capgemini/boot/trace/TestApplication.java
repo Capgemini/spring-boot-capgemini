@@ -46,7 +46,7 @@ public class TestApplication {
         public Foo() { }
 
         @Trace
-        String getMessage() {
+        public String getMessage() {
             return "Hello World!";
         }
     }

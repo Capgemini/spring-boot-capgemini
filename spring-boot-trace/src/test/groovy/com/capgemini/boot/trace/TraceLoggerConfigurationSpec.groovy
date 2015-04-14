@@ -12,7 +12,6 @@ import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.context.ApplicationContext
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.web.client.RestTemplate
-import spock.lang.Ignore
 import spock.lang.Specification
 
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = TestApplication)
@@ -48,7 +47,6 @@ class TraceLoggerConfigurationSpec extends Specification {
         }
 	}
 
-    @Ignore
     def "can trace a method call"() {
         given:
         def output = new ByteArrayOutputStream()
@@ -60,8 +58,8 @@ class TraceLoggerConfigurationSpec extends Specification {
         restTemplate.getForEntity("http://localhost:$serverPort", String)
 
         then:
-        output.toString().contains("Entering")
-        output.toString().contains("Leaving")
+        output.toString().contains("Entering getMessage()")
+        output.toString().contains("Leaving  getMessage(), returned Hello World!")
 
         cleanup:
         System.out = origOut
