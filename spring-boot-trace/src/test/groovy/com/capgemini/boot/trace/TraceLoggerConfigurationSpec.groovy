@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = TestApplication)
-@WebIntegrationTest("logging.level.com.capgemini.boot.trace.TestApplication=TRACE")
+@WebIntegrationTest(["logging.level.com.capgemini.boot.trace.TestApplication=TRACE", "server.port=0"])
 class TraceLoggerConfigurationSpec extends Specification {
 
     @Value('${local.server.port}')
@@ -47,7 +47,7 @@ class TraceLoggerConfigurationSpec extends Specification {
         }
 	}
 
-    def "can trace a method call"() {
+    def "can trace an annotated method call"() {
         given:
         def output = new ByteArrayOutputStream()
 
@@ -58,10 +58,28 @@ class TraceLoggerConfigurationSpec extends Specification {
         restTemplate.getForEntity("http://localhost:$serverPort", String)
 
         then:
-        output.toString().contains("Entering getMessage()")
-        output.toString().contains("Leaving  getMessage(), returned Hello World!")
+        output.toString().contains("Entering getMessageWithAnnotation()")
+        output.toString().contains("Leaving  getMessageWithAnnotation(), returned Hello World!")
 
         cleanup:
         System.out = origOut
     }
+	
+	def "non annotated method isn't traced"() {
+		given:
+		def output = new ByteArrayOutputStream()
+
+		def origOut = System.out
+		System.out = new PrintStream(output, true)
+
+		when:
+		restTemplate.getForEntity("http://localhost:$serverPort/nonAnnotated", String)
+
+		then:
+		!output.toString().contains("Entering getMessageWithoutAnnotation()")
+		!output.toString().contains("Leaving  getMessageWithoutAnnotation(), returned Hello Non Annotated World!")
+
+		cleanup:
+		System.out = origOut
+	}
 }

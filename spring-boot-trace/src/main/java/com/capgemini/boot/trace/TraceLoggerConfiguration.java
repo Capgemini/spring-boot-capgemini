@@ -17,6 +17,7 @@ package com.capgemini.boot.trace;
 
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
+import org.springframework.aop.interceptor.AbstractTraceInterceptor;
 import org.springframework.aop.interceptor.CustomizableTraceInterceptor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
@@ -26,19 +27,14 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 /**
  * Configures basic trace logging for enabled spring-boot applications.
  * 
- * Currently, only methods annotated with the @Trace annotation will
- * be traced.
+ * Methods annotated with the @Trace annotation will be traced.
  */
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class TraceLoggerConfiguration {
     @Bean(name = "traceInterceptor")
-    public CustomizableTraceInterceptor customizableTraceInterceptor() {
-        CustomizableTraceInterceptor customizableTraceInterceptor = new CustomizableTraceInterceptor();
-        customizableTraceInterceptor.setUseDynamicLogger(true);
-        customizableTraceInterceptor.setEnterMessage("Entering $[methodName]($[arguments])");
-        customizableTraceInterceptor.setExitMessage("Leaving  $[methodName](), returned $[returnValue]");
-        return customizableTraceInterceptor;
+    public AbstractTraceInterceptor customizableTraceInterceptor() {
+        return TraceLoggerConfigurationUtils.createTraceInterceptor();
     }
 
     @Bean(name = "traceAnnotationAdvisor")

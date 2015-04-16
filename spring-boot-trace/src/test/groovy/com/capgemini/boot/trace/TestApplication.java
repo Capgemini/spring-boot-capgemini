@@ -33,7 +33,17 @@ public class TestApplication {
 
     @RequestMapping("/")
     String home() {
-        return foo.getMessage();
+        return foo.getMessageWithAnnotation();
+    }
+    
+    @RequestMapping("/nonAnnotated")
+    String nonAnnotated() {
+        return foo.getMessageWithoutAnnotation();
+    }
+    
+    @RequestMapping("/anotherNonAnnotated")
+    String anotherNonAnnotated() {
+        return foo.getAnotherMessageWithoutAnnotation();
     }
 
     public static void main(String[] args) throws Exception {
@@ -46,8 +56,16 @@ public class TestApplication {
         public Foo() { }
 
         @Trace
-        public String getMessage() {
+        public String getMessageWithAnnotation() {
             return "Hello World!";
+        }
+        
+        public String getMessageWithoutAnnotation() {
+        	return "Hello Non Annotated World!";
+        }
+        
+        public String getAnotherMessageWithoutAnnotation() {
+        	return "Hello Non Annotated Universe!";
         }
     }
 }
