@@ -35,12 +35,12 @@ public class TestApplication {
     String home() {
         return foo.getMessageWithAnnotation();
     }
-    
+
     @RequestMapping("/nonAnnotated")
     String nonAnnotated() {
         return foo.getMessageWithoutAnnotation();
     }
-    
+
     @RequestMapping("/anotherNonAnnotated")
     String anotherNonAnnotated() {
         return foo.getAnotherMessageWithoutAnnotation();
@@ -53,19 +53,20 @@ public class TestApplication {
     @Component
     public class Foo {
         @Autowired
-        public Foo() { }
+        public Foo() {
+        }
 
         @Trace
         public String getMessageWithAnnotation() {
             return "Hello World!";
         }
-        
+
         public String getMessageWithoutAnnotation() {
-        	return "Hello Non Annotated World!";
+            return "Hello Non Annotated World!";
         }
-        
+
         public String getAnotherMessageWithoutAnnotation() {
-        	return "Hello Non Annotated Universe!";
+            return "Hello Non Annotated Universe!";
         }
     }
 }
