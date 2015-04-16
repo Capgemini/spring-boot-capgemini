@@ -16,8 +16,6 @@
 package com.capgemini.boot.trace.annotation;
 
 import com.capgemini.boot.trace.TraceLoggerConfiguration;
-import com.capgemini.boot.trace.TraceLoggerRegistrar;
-
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;
@@ -30,7 +28,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import({TraceLoggerConfiguration.class, TraceLoggerRegistrar.class})
+@Import(TraceLoggerConfiguration.class)
 public @interface EnableTraceLogger {
 
 }
