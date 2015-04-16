@@ -28,48 +28,55 @@ import com.capgemini.boot.trace.config.TraceLoggerConfigFactory;
 import com.capgemini.boot.trace.config.TraceLoggerPointcut;
 
 /**
- * Configures trace logging for enabled spring-boot applications for configured pointcuts.
+ * Configures trace logging for enabled spring-boot applications for configured
+ * pointcuts.
  * 
  * Pointcuts are configured via trace-logging.pointcut.[name] properties.
  */
-public class TraceLoggerRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware {
-	
-	/** User configuration for the trace logger */
-	private TraceLoggerConfig config;
-	
-	/** Used to construct config */
-	private Environment environment;
-	
-	@Override
-	public void setEnvironment(Environment environment) {
-		this.environment = environment;
-	}
+public class TraceLoggerRegistrar implements ImportBeanDefinitionRegistrar,
+        EnvironmentAware {
 
-	/**
-	 * Registers advisors based on configured pointcuts
-	 */
-	@Override
-	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-		if (config.isEnabled()) {
-			registerAdvisors(registry);
-		}
-	}
-	
-	protected TraceLoggerConfig getConfig() {
-		if (config == null) {
-			//Ideally the config would be autowired but 'registerBeanDefinitions' gets called
-			//before beans are AutoWired so this is not possible (or will be tricky at least)
-			config = TraceLoggerConfigFactory.createConfig(environment);
-		}
-		
-		return config;
-	}
-	
-	private void registerAdvisors(BeanDefinitionRegistry registry) {
-		final List<TraceLoggerPointcut> pointcuts = getConfig().getConfiguredPointcuts();
-		
-		for (TraceLoggerPointcut pointcut: pointcuts) {
-			TraceLoggerConfigurationUtils.registerAdvisor(registry, pointcut);
-		}
-	}
+    /** User configuration for the trace logger */
+    private TraceLoggerConfig config;
+
+    /** Used to construct config */
+    private Environment environment;
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    /**
+     * Registers advisors based on configured pointcuts
+     */
+    @Override
+    public void registerBeanDefinitions(
+            AnnotationMetadata importingClassMetadata,
+            BeanDefinitionRegistry registry) {
+        if (getConfig().isEnabled()) {
+            registerAdvisors(registry);
+        }
+    }
+
+    protected TraceLoggerConfig getConfig() {
+        if (config == null) {
+            // Ideally the config would be autowired but
+            // 'registerBeanDefinitions' gets called
+            // before beans are AutoWired so this is not possible (or will be
+            // tricky at least)
+            config = TraceLoggerConfigFactory.createConfig(environment);
+        }
+
+        return config;
+    }
+
+    private void registerAdvisors(BeanDefinitionRegistry registry) {
+        final List<TraceLoggerPointcut> pointcuts = getConfig()
+                .getConfiguredPointcuts();
+
+        for (TraceLoggerPointcut pointcut : pointcuts) {
+            TraceLoggerConfigurationUtils.registerAdvisor(registry, pointcut);
+        }
+    }
 }
