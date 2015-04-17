@@ -17,7 +17,12 @@ package com.capgemini.boot.trace;
 
 import java.util.List;
 
+import org.springframework.aop.aspectj.AspectJExpressionPointcut;
+import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
@@ -35,6 +40,8 @@ import com.capgemini.boot.trace.config.TraceLoggerPointcut;
  */
 public class TraceLoggerRegistrar implements ImportBeanDefinitionRegistrar,
         EnvironmentAware {
+    
+    private static final String ADVISOR_BEAN_SUFFIX = "Advisor";
 
     /** User configuration for the trace logger */
     private TraceLoggerConfig config;
@@ -76,7 +83,50 @@ public class TraceLoggerRegistrar implements ImportBeanDefinitionRegistrar,
                 .getConfiguredPointcuts();
 
         for (TraceLoggerPointcut pointcut : pointcuts) {
-            TraceLoggerConfigurationUtils.registerAdvisor(registry, pointcut);
+            registerAdvisor(registry, pointcut);
         }
+    }
+    
+    /**
+     * Registers an advisor bean based on a specified pointcut.
+     * 
+     * @param registry
+     *            The bean registry where the advisor will be registered.
+     * @param pointcut
+     *            The pointcut for the advisor
+     */
+    private static void registerAdvisor(BeanDefinitionRegistry registry,
+            TraceLoggerPointcut pointcut) {
+        registry.registerBeanDefinition(
+                createAdvisorBeanName(pointcut.getName()),
+                createAdvisorBeanDefinition(pointcut.getPointcutExpression()));
+    }
+
+    private static BeanDefinition createAdvisorBeanDefinition(
+            String pointcutExpression) {
+        final GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
+        beanDefinition
+                .setConstructorArgumentValues(createAdvisorConstructorArguments(pointcutExpression));
+        beanDefinition.setBeanClass(DefaultPointcutAdvisor.class);
+
+        return beanDefinition;
+    }
+
+    private static ConstructorArgumentValues createAdvisorConstructorArguments(
+            String pointcutExpression) {
+        final ConstructorArgumentValues constructorValues = new ConstructorArgumentValues();
+
+        final AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        pointcut.setExpression(pointcutExpression);
+
+        constructorValues.addIndexedArgumentValue(0, pointcut);
+        constructorValues.addIndexedArgumentValue(1,
+                TraceLoggerConfigurationUtils.createTraceInterceptor());
+
+        return constructorValues;
+    }
+
+    private static String createAdvisorBeanName(String pointcutName) {
+        return pointcutName + ADVISOR_BEAN_SUFFIX;
     }
 }

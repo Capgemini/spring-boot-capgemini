@@ -19,13 +19,21 @@ import java.util.List;
 
 /**
  * Configuration for trace logging.
- * 
- * @author Craig Williams
  *
  */
 public interface TraceLoggerConfig {
 
+    /**
+     * Gets the trace logging pointcuts that have been configured for the application.
+     * 
+     * @return A list of configured pointcuts
+     */
     List<TraceLoggerPointcut> getConfiguredPointcuts();
 
+    /**
+     * Establishes if trace logging is enabled for the application.
+     * 
+     * @return true if trace logging is enabled, false otherwise
+     */
     boolean isEnabled();
 }

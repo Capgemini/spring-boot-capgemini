@@ -39,7 +39,7 @@ public class TraceLoggerConfiguration {
     @Bean(name = "traceAnnotationAdvisor")
     public Advisor traceAnnotationAdvisor() {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        pointcut.setExpression("@annotation(com.capgemini.boot.trace.annotation.Trace)");
+        pointcut.setExpression("@annotation(com.capgemini.boot.trace.annotation.Trace) or within(@com.capgemini.boot.trace.annotation.Trace *)");
         return new DefaultPointcutAdvisor(pointcut, customizableTraceInterceptor());
     }
 }

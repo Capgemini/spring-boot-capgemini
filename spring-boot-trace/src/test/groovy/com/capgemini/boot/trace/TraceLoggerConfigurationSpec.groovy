@@ -47,7 +47,7 @@ class TraceLoggerConfigurationSpec extends Specification {
 		
 		expect:
         bean.pointcut instanceof ExpressionPointcut
-        ((ExpressionPointcut) bean.pointcut).expression == "@annotation(com.capgemini.boot.trace.annotation.Trace)"
+        ((ExpressionPointcut) bean.pointcut).expression == "@annotation(com.capgemini.boot.trace.annotation.Trace) or within(@com.capgemini.boot.trace.annotation.Trace *)"
     }
 	
 	def "trace interceptor bean exists with correct properties set"() {
@@ -97,4 +97,22 @@ class TraceLoggerConfigurationSpec extends Specification {
 		cleanup:
 		System.out = origOut
 	}
+    
+    def "can trace a class annotated method call"() {
+        given:
+        def output = new ByteArrayOutputStream()
+
+        def origOut = System.out
+        System.out = new PrintStream(output, true)
+
+        when:
+        restTemplate.getForEntity("http://localhost:$serverPort/classAnnotated", String)
+
+        then:
+        output.toString().contains("Entering getMessage()")
+        output.toString().contains("Leaving  getMessage(), returned Hello World!")
+
+        cleanup:
+        System.out = origOut
+    }
 }

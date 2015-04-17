@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
  * Methods annotated with this annotation will be trace logged when TraceLogger is enabled
  * for a spring-boot application.
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Trace {
 

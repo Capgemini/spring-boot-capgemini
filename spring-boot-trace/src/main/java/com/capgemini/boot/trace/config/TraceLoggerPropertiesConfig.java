@@ -26,11 +26,9 @@ import org.springframework.core.env.PropertyResolver;
  * Trace Logger configuration backed by properties.
  * 
  * Pointcuts are configured via trace-logging.pointcut.[name] properties.
- * 
- * @author Craig Williams
  *
  */
-public class TraceLoggerPropertiesConfig implements TraceLoggerConfig {
+public final class TraceLoggerPropertiesConfig implements TraceLoggerConfig {
 
     private static final String PROPERTY_PREFIX = "trace-logging.";
 

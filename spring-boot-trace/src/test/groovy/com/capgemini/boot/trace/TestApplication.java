@@ -29,7 +29,10 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableTraceLogger
 public class TestApplication {
     @Autowired
-    Foo foo;
+    private Foo foo;
+    
+    @Autowired
+    private ClassLevelTrace classLevelTrace;
 
     @RequestMapping("/")
     String home() {
@@ -44,6 +47,11 @@ public class TestApplication {
     @RequestMapping("/anotherNonAnnotated")
     String anotherNonAnnotated() {
         return foo.getAnotherMessageWithoutAnnotation();
+    }
+    
+    @RequestMapping("/classAnnotated")
+    String classLevelAnnotation() {
+        return classLevelTrace.getMessage();
     }
 
     public static void main(String[] args) throws Exception {
@@ -67,6 +75,19 @@ public class TestApplication {
 
         public String getAnotherMessageWithoutAnnotation() {
             return "Hello Non Annotated Universe!";
+        }
+    }
+    
+    @Component
+    @Trace
+    public class ClassLevelTrace {
+        @Autowired
+        public ClassLevelTrace() {
+            
+        }
+        
+        public String getMessage() {
+            return "Hello World!";
         }
     }
 }

@@ -17,8 +17,6 @@ package com.capgemini.boot.trace.config;
 
 /**
  * Wraps a pointcut expression and pointcut name.
- * 
- * @author Craig Williams
  *
  */
 public class TraceLoggerPointcut {

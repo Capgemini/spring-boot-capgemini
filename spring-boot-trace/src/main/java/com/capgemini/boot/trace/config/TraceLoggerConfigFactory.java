@@ -19,8 +19,6 @@ import org.springframework.core.env.Environment;
 
 /**
  * Factory class for creating TraceLoggerConfig.
- * 
- * @author Craig Williams
  *
  */
 public final class TraceLoggerConfigFactory {
