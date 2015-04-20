@@ -1,3 +1,7 @@
-dependencies {
+archivesBaseName = 'spring-boot-starter-jsf'
 
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:${commonVersions.springBoot}")
+
+    compile("com.sun.faces:jsf-api:${commonVersions.jsf}")
 }
