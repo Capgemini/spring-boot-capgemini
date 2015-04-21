@@ -27,7 +27,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 public abstract class SettingsBackedRegistrar<T> implements ImportBeanDefinitionRegistrar, EnvironmentAware {
-
     private ConfigurableEnvironment environment;
     private T settings;
 
@@ -49,8 +48,8 @@ public abstract class SettingsBackedRegistrar<T> implements ImportBeanDefinition
         try {
             Type type = getClass().getGenericSuperclass();
             ParameterizedType p = (ParameterizedType) type;
-            Type settingsType = p.getActualTypeArguments()[0];
-            T newSettings = (T) Class.forName(settingsType.getTypeName()).newInstance();
+            Class settingsType = (Class) p.getActualTypeArguments()[0];
+            T newSettings = (T) Class.forName(settingsType.getName()).newInstance();
 
             PropertiesConfigurationFactory<Object> factory = new PropertiesConfigurationFactory<Object>(newSettings);
             factory.setTargetName(getPropertyPrefix());
