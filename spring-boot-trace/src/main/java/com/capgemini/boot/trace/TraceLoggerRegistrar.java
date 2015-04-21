@@ -15,22 +15,14 @@
 */
 package com.capgemini.boot.trace;
 
-import java.util.List;
-
+import com.capgemini.boot.trace.settings.TraceLoggerSettings;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
-import org.springframework.context.EnvironmentAware;
-import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
-import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
-
-import com.capgemini.boot.trace.config.TraceLoggerConfig;
-import com.capgemini.boot.trace.config.TraceLoggerConfigFactory;
-import com.capgemini.boot.trace.config.TraceLoggerPointcut;
 
 /**
  * Configures trace logging for enabled spring-boot applications for configured
@@ -38,55 +30,25 @@ import com.capgemini.boot.trace.config.TraceLoggerPointcut;
  * 
  * Pointcuts are configured via trace-logging.pointcut.[name] properties.
  */
-public class TraceLoggerRegistrar implements ImportBeanDefinitionRegistrar,
-        EnvironmentAware {
+public class TraceLoggerRegistrar extends SettingsBackedRegistrar<TraceLoggerSettings> {
     
     private static final String ADVISOR_BEAN_SUFFIX = "Advisor";
 
-    /** User configuration for the trace logger */
-    private TraceLoggerConfig config;
-
-    /** Used to construct config */
-    private Environment environment;
-
     @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
+    protected String getPropertyPrefix() {
+        return TraceLoggerSettings.SETTINGS_PREFIX;
     }
 
     /**
      * Registers advisors based on configured pointcuts
      */
     @Override
-    public void registerBeanDefinitions(
-            AnnotationMetadata importingClassMetadata,
-            BeanDefinitionRegistry registry) {
-        if (getConfig().isEnabled()) {
-            registerAdvisors(registry);
-        }
-    }
-
-    protected TraceLoggerConfig getConfig() {
-        if (config == null) {
-            // Ideally the config would be autowired but
-            // 'registerBeanDefinitions' gets called
-            // before beans are AutoWired so this is not possible (or will be
-            // tricky at least)
-            config = TraceLoggerConfigFactory.createConfig(environment);
-        }
-
-        return config;
-    }
-
-    private void registerAdvisors(BeanDefinitionRegistry registry) {
-        final List<TraceLoggerPointcut> pointcuts = getConfig()
-                .getConfiguredPointcuts();
-
-        for (TraceLoggerPointcut pointcut : pointcuts) {
+    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+        for (TraceLoggerSettings.TraceLoggerPointcut pointcut : getSettings().getPointcut()) {
             registerAdvisor(registry, pointcut);
         }
     }
-    
+
     /**
      * Registers an advisor bean based on a specified pointcut.
      * 
@@ -96,14 +58,13 @@ public class TraceLoggerRegistrar implements ImportBeanDefinitionRegistrar,
      *            The pointcut for the advisor
      */
     private static void registerAdvisor(BeanDefinitionRegistry registry,
-            TraceLoggerPointcut pointcut) {
+                                        TraceLoggerSettings.TraceLoggerPointcut pointcut) {
         registry.registerBeanDefinition(
                 createAdvisorBeanName(pointcut.getName()),
                 createAdvisorBeanDefinition(pointcut.getPointcutExpression()));
     }
 
-    private static BeanDefinition createAdvisorBeanDefinition(
-            String pointcutExpression) {
+    private static BeanDefinition createAdvisorBeanDefinition(String pointcutExpression) {
         final GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
         beanDefinition
                 .setConstructorArgumentValues(createAdvisorConstructorArguments(pointcutExpression));
@@ -120,8 +81,7 @@ public class TraceLoggerRegistrar implements ImportBeanDefinitionRegistrar,
         pointcut.setExpression(pointcutExpression);
 
         constructorValues.addIndexedArgumentValue(0, pointcut);
-        constructorValues.addIndexedArgumentValue(1,
-                TraceLoggerConfigurationUtils.createTraceInterceptor());
+        constructorValues.addIndexedArgumentValue(1, TraceLoggerConfigurationUtils.createTraceInterceptor());
 
         return constructorValues;
     }

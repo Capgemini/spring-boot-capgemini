@@ -15,11 +15,15 @@
 */
 package com.capgemini.boot.trace;
 
+import com.capgemini.boot.trace.settings.TraceLoggerSettings;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.interceptor.AbstractTraceInterceptor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
@@ -29,8 +33,14 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * Methods annotated with the @Trace annotation will be traced.
  */
 @Configuration
+@EnableConfigurationProperties
+@ComponentScan
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class TraceLoggerConfiguration {
+
+    @Autowired
+    private TraceLoggerSettings settings;
+
     @Bean(name = "traceInterceptor")
     public AbstractTraceInterceptor customizableTraceInterceptor() {
         return TraceLoggerConfigurationUtils.createTraceInterceptor();
@@ -40,6 +50,7 @@ public class TraceLoggerConfiguration {
     public Advisor traceAnnotationAdvisor() {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         pointcut.setExpression("@annotation(com.capgemini.boot.trace.annotation.Trace) or within(@com.capgemini.boot.trace.annotation.Trace *)");
+
         return new DefaultPointcutAdvisor(pointcut, customizableTraceInterceptor());
     }
 }

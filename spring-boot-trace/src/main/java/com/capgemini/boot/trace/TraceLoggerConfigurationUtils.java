@@ -27,9 +27,7 @@ public final class TraceLoggerConfigurationUtils {
     /**
      * Private constructor as this class provides static methods only
      */
-    private TraceLoggerConfigurationUtils() {
-
-    }
+    private TraceLoggerConfigurationUtils() { }
 
     /**
      * Creates a trace interceptor for logging entry into and exit from methods.
@@ -39,10 +37,8 @@ public final class TraceLoggerConfigurationUtils {
     public static AbstractTraceInterceptor createTraceInterceptor() {
         CustomizableTraceInterceptor customizableTraceInterceptor = new CustomizableTraceInterceptor();
         customizableTraceInterceptor.setUseDynamicLogger(true);
-        customizableTraceInterceptor
-                .setEnterMessage("Entering $[methodName]($[arguments])");
-        customizableTraceInterceptor
-                .setExitMessage("Leaving  $[methodName](), returned $[returnValue]");
+        customizableTraceInterceptor.setEnterMessage("Entering $[methodName]($[arguments])");
+        customizableTraceInterceptor.setExitMessage("Leaving  $[methodName](), returned $[returnValue]");
         return customizableTraceInterceptor;
     }
 }
