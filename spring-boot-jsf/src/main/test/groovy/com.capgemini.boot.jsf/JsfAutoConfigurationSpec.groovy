@@ -34,20 +34,13 @@ class JsfAutoConfigurationSpec extends Specification {
     @Autowired
     ApplicationContext context
 
-    def "faces servlet bean exists"() {
+    def "faces servlet and servlet registration beans exists"() {
         given:
-        FacesServlet bean = context.getBean(JsfAutoConfiguration.FACES_SERVLET_BEAN_NAME)
+        FacesServlet facesServletBean = context.getBean(JsfAutoConfiguration.FACES_SERVLET_BEAN_NAME)
+        ServletRegistrationBean servletRegistrationBean = context.getBean(JsfAutoConfiguration.FACES_SERVLET_REGISTRATION_BEAN_NAME)
 
         expect:
-        bean != null
-    }
-
-    def "servlet registration bean exists"() {
-        given:
-        ServletRegistrationBean bean = context.getBean(JsfAutoConfiguration.FACES_SERVLET_REGISTRATION_BEAN_NAME)
-
-        expect:
-        bean != null
+        facesServletBean != null && servletRegistrationBean != null
     }
 
     def "servlet registration bean exists with faces servlet registered on it"() {
@@ -58,21 +51,17 @@ class JsfAutoConfigurationSpec extends Specification {
         bean.getServletName().equals(JsfAutoConfiguration.FACES_SERVLET_BEAN_NAME)
     }
 
-    def "custom scope configurer bean exists"() {
-        given:
-        CustomScopeConfigurer bean = context.getBean(JsfAutoConfiguration.CUSTOM_SCOPE_CONFIGURER_BEAN_NAME)
-
-        expect:
-        bean != null
-    }
-
     def "custom scope configurer bean exists with view scope in scopes map"() {
         given:
-        CustomScopeConfigurer bean = context.getBean(JsfAutoConfiguration.CUSTOM_SCOPE_CONFIGURER_BEAN_NAME)
-        Map<String, Object> scopeMap = bean.scopes
+        CustomScopeConfigurer customScopeConfigurer = context.getBean(JsfAutoConfiguration.CUSTOM_SCOPE_CONFIGURER_BEAN_NAME)
+        Map<String, Object> scopeMap = customScopeConfigurer.scopes
         ViewScope scope = scopeMap.get("view")
 
         expect:
+        // First check bean exists
+        customScopeConfigurer != null
+
+        // Second check the scope in the map is an instance of ViewScope
         scope instanceof ViewScope
     }
 }

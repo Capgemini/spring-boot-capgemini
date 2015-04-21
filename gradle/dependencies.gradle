@@ -2,7 +2,6 @@ ext {
     commonVersions = [
         springBoot: "1.2.2.RELEASE",
         spock: "1.0-groovy-2.4",
-        jsf: "2.2.9",
     ]
 
     commonDependencies = [

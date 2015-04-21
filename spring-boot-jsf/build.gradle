@@ -1,7 +1,11 @@
 archivesBaseName = 'spring-boot-starter-jsf'
 
+versions = [
+    jsf: "2.2.9",
+]
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:${commonVersions.springBoot}")
 
-    compile("com.sun.faces:jsf-api:${commonVersions.jsf}")
+    compile("com.sun.faces:jsf-api:${versions.jsf}")
 }

@@ -23,6 +23,7 @@ import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.faces.application.Application;
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.Servlet;
 import javax.servlet.ServletRegistration;
@@ -38,7 +39,7 @@ import static com.capgemini.boot.jsf.ViewScope.SCOPE_VIEW;
  */
 @Configuration
 @ConditionalOnWebApplication
-@ConditionalOnClass
+@ConditionalOnClass(Application.class)
 @AutoConfigureAfter({
         EmbeddedServletContainerAutoConfiguration.class
 })
