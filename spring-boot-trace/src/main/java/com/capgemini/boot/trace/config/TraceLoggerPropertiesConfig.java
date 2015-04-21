@@ -13,15 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package com.capgemini.boot.trace.config;
-
-import org.springframework.boot.bind.RelaxedPropertyResolver;
-import org.springframework.core.env.PropertyResolver;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.boot.bind.RelaxedPropertyResolver;
+import org.springframework.core.env.PropertyResolver;
 
 /**
  * Trace Logger configuration backed by properties.

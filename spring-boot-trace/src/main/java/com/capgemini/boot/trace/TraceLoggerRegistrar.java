@@ -13,12 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package com.capgemini.boot.trace;
 
-import com.capgemini.boot.trace.config.TraceLoggerConfig;
-import com.capgemini.boot.trace.config.TraceLoggerConfigFactory;
-import com.capgemini.boot.trace.config.TraceLoggerPointcut;
+import java.util.List;
+
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -30,7 +28,9 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 
-import java.util.List;
+import com.capgemini.boot.trace.config.TraceLoggerConfig;
+import com.capgemini.boot.trace.config.TraceLoggerConfigFactory;
+import com.capgemini.boot.trace.config.TraceLoggerPointcut;
 
 /**
  * Configures trace logging for enabled spring-boot applications for configured

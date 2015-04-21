@@ -6,7 +6,6 @@ versions = [
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:${commonVersions.springBoot}")
-    compile("com.sun.faces:jsf-api:${versions.jsf}")
 
-    testCompile("org.springframework.boot:spring-boot-starter-test:${commonVersions.springBoot}")
+    compile("com.sun.faces:jsf-api:${versions.jsf}")
 }

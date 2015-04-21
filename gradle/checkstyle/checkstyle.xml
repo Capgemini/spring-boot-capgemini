@@ -16,7 +16,6 @@
 <!DOCTYPE module PUBLIC
         "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
         "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
-
 <module name="Checker">
     <module name="SuppressionFilter">
         <property name="file" value="${checkstyleConfigDir}/suppressions.xml"/>
@@ -41,11 +40,6 @@
         <module name="LeftCurly"/>
         <module name="RightCurly"/>
         <module name="NeedBraces"/>
-
-        <!-- Source file structure -->
-        <module name="EmptyLineSeparator">
-            <property name="allowNoEmptyLineBetweenFields" value="true"/>
-        </module>
 
         <!-- Whitespace -->
         <module name="GenericWhitespace"/>
@@ -74,6 +68,9 @@
         <module name="MultipleVariableDeclarations"/>
         <module name="NoClone"/>
         <module name="NoFinalizer"/>
+        <module name="RedundantThrows">
+            <property name="allowUnchecked" value="true"/>
+        </module>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
         <module name="StringLiteralEquality"/>

@@ -2,7 +2,10 @@ archivesBaseName = 'spring-boot-trace-sample'
 
 dependencies {
 	compile("org.springframework.boot:spring-boot-starter-web:${commonVersions.springBoot}")
+    // tag::actuator[]
     compile("org.springframework.boot:spring-boot-starter-actuator:${commonVersions.springBoot}")
-
+    // end::actuator[]
+    // tag::tests[]
     testCompile("org.springframework.boot:spring-boot-starter-test:${commonVersions.springBoot}")
+    // end::tests[]
  }
