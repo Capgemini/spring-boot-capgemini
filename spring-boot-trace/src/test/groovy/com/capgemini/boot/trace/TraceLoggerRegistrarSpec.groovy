@@ -13,6 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
 package com.capgemini.boot.trace
 
 import org.springframework.aop.PointcutAdvisor
@@ -25,7 +26,6 @@ import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.context.ApplicationContext
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.web.client.RestTemplate
-
 import spock.lang.Specification
 
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = TestApplication)
