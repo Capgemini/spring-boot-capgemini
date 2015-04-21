@@ -43,7 +43,7 @@ import static com.capgemini.boot.jsf.ViewScope.SCOPE_VIEW;
 @AutoConfigureAfter({
         EmbeddedServletContainerAutoConfiguration.class
 })
-public class JsfAutoConfiguration {
+public class JsfConfiguration {
 
     public static final String FACES_SERVLET_BEAN_NAME = "Faces-Servlet";
     public static final String FACES_SERVLET_REGISTRATION_BEAN_NAME = "FACES_SERVLET_REGISTRATION_BEAN_NAME";

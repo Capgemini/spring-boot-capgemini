@@ -29,15 +29,15 @@ import javax.faces.webapp.FacesServlet
  */
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = TestApplication)
 @WebIntegrationTest
-class JsfAutoConfigurationSpec extends Specification {
+class JsfConfigurationSpec extends Specification {
 
     @Autowired
     ApplicationContext context
 
     def "faces servlet and servlet registration beans exists"() {
         given:
-        FacesServlet facesServletBean = context.getBean(JsfAutoConfiguration.FACES_SERVLET_BEAN_NAME)
-        ServletRegistrationBean servletRegistrationBean = context.getBean(JsfAutoConfiguration.FACES_SERVLET_REGISTRATION_BEAN_NAME)
+        FacesServlet facesServletBean = context.getBean(JsfConfiguration.FACES_SERVLET_BEAN_NAME)
+        ServletRegistrationBean servletRegistrationBean = context.getBean(JsfConfiguration.FACES_SERVLET_REGISTRATION_BEAN_NAME)
 
         expect:
         facesServletBean != null && servletRegistrationBean != null
@@ -45,15 +45,15 @@ class JsfAutoConfigurationSpec extends Specification {
 
     def "servlet registration bean exists with faces servlet registered on it"() {
         given:
-        ServletRegistrationBean bean = context.getBean(JsfAutoConfiguration.FACES_SERVLET_REGISTRATION_BEAN_NAME)
+        ServletRegistrationBean bean = context.getBean(JsfConfiguration.FACES_SERVLET_REGISTRATION_BEAN_NAME)
 
         expect:
-        bean.getServletName().equals(JsfAutoConfiguration.FACES_SERVLET_BEAN_NAME)
+        bean.getServletName().equals(JsfConfiguration.FACES_SERVLET_BEAN_NAME)
     }
 
     def "custom scope configurer bean exists with view scope in scopes map"() {
         given:
-        CustomScopeConfigurer customScopeConfigurer = context.getBean(JsfAutoConfiguration.CUSTOM_SCOPE_CONFIGURER_BEAN_NAME)
+        CustomScopeConfigurer customScopeConfigurer = context.getBean(JsfConfiguration.CUSTOM_SCOPE_CONFIGURER_BEAN_NAME)
         Map<String, Object> scopeMap = customScopeConfigurer.scopes
         ViewScope scope = scopeMap.get("view")
 

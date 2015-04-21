@@ -15,14 +15,12 @@
 */
 package com.capgemini.boot.jsf;
 
-import com.capgemini.boot.jsf.annotation.EnableJsf;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 /**
  * Test application for the spring boot jsf starter.
  */
-@EnableJsf
 @EnableAutoConfiguration
 public class TestApplication {
 
