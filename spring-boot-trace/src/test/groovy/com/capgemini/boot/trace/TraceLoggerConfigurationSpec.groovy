@@ -47,7 +47,8 @@ class TraceLoggerConfigurationSpec extends Specification {
 		
 		expect:
         bean.pointcut instanceof ExpressionPointcut
-        ((ExpressionPointcut) bean.pointcut).expression == "@annotation(com.capgemini.boot.trace.annotation.Trace) or within(@com.capgemini.boot.trace.annotation.Trace *)"
+        ((ExpressionPointcut) bean.pointcut).expression == "@annotation(com.capgemini.boot.trace.annotation.Trace) or" +
+                " within(@com.capgemini.boot.trace.annotation.Trace *)"
     }
 	
 	def "trace interceptor bean exists with correct properties set"() {

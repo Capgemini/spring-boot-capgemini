@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package com.capgemini.boot.jsf
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.CustomScopeConfigurer
 import org.springframework.boot.context.embedded.ServletRegistrationBean
@@ -24,6 +25,9 @@ import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
 import javax.faces.webapp.FacesServlet
+
+import static com.capgemini.boot.jsf.JsfConfiguration.*
+
 /**
  * Test specification for the JsfAutoConfiguration class
  */
@@ -34,34 +38,29 @@ class JsfConfigurationSpec extends Specification {
     @Autowired
     ApplicationContext context
 
-    def "faces servlet and servlet registration beans exists"() {
+    def "faces servlet bean exists"() {
         given:
-        FacesServlet facesServletBean = context.getBean(JsfConfiguration.FACES_SERVLET_BEAN_NAME)
-        ServletRegistrationBean servletRegistrationBean = context.getBean(JsfConfiguration.FACES_SERVLET_REGISTRATION_BEAN_NAME)
+        FacesServlet facesServletBean = context.getBean(FACES_SERVLET_BEAN_NAME)
 
         expect:
-        facesServletBean != null && servletRegistrationBean != null
+        facesServletBean != null
     }
 
     def "servlet registration bean exists with faces servlet registered on it"() {
         given:
-        ServletRegistrationBean bean = context.getBean(JsfConfiguration.FACES_SERVLET_REGISTRATION_BEAN_NAME)
+        ServletRegistrationBean bean = context.getBean(FACES_SERVLET_REGISTRATION_BEAN_NAME)
 
         expect:
-        bean.getServletName().equals(JsfConfiguration.FACES_SERVLET_BEAN_NAME)
+        bean.servletName == FACES_SERVLET_BEAN_NAME
     }
 
     def "custom scope configurer bean exists with view scope in scopes map"() {
         given:
-        CustomScopeConfigurer customScopeConfigurer = context.getBean(JsfConfiguration.CUSTOM_SCOPE_CONFIGURER_BEAN_NAME)
+        CustomScopeConfigurer customScopeConfigurer = context.getBean(CUSTOM_SCOPE_CONFIGURER_BEAN_NAME)
         Map<String, Object> scopeMap = customScopeConfigurer.scopes
         ViewScope scope = scopeMap.get("view")
 
         expect:
-        // First check bean exists
-        customScopeConfigurer != null
-
-        // Second check the scope in the map is an instance of ViewScope
         scope instanceof ViewScope
     }
 }
