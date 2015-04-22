@@ -24,6 +24,8 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.core.type.AnnotationMetadata;
 
+import java.util.Map;
+
 /**
  * Configures trace logging for enabled spring-boot applications for configured
  * pointcuts.
@@ -44,24 +46,20 @@ public class TraceLoggerRegistrar extends SettingsBackedRegistrar<TraceLoggerSet
      */
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        for (TraceLoggerSettings.TraceLoggerPointcut pointcut : getSettings().getPointcut()) {
-            registerAdvisor(registry, pointcut);
+        for (Map.Entry<String, String> pointcut : getSettings().getPointcut().entrySet()) {
+            registerAdvisor(registry, pointcut.getKey(), pointcut.getValue());
         }
     }
 
     /**
      * Registers an advisor bean based on a specified pointcut.
      * 
-     * @param registry
-     *            The bean registry where the advisor will be registered.
-     * @param pointcut
-     *            The pointcut for the advisor
+     * @param registry the bean registry where the advisor will be registered.
+     * @param name the name of the advisor
+     * @param expression the expression of the advisor
      */
-    private static void registerAdvisor(BeanDefinitionRegistry registry,
-                                        TraceLoggerSettings.TraceLoggerPointcut pointcut) {
-        registry.registerBeanDefinition(
-                createAdvisorBeanName(pointcut.getName()),
-                createAdvisorBeanDefinition(pointcut.getPointcutExpression()));
+    private static void registerAdvisor(BeanDefinitionRegistry registry, String name, String expression) {
+        registry.registerBeanDefinition(createAdvisorBeanName(name), createAdvisorBeanDefinition(expression));
     }
 
     private static BeanDefinition createAdvisorBeanDefinition(String pointcutExpression) {

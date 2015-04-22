@@ -18,8 +18,8 @@ package com.capgemini.boot.trace.settings;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Trace Logger configuration backed by properties.
@@ -31,32 +31,9 @@ import java.util.List;
 public final class TraceLoggerSettings {
     public static final String SETTINGS_PREFIX = "trace-logging";
 
-    private List<TraceLoggerPointcut> pointcut = new ArrayList<TraceLoggerPointcut>();
+    private Map<String, String> pointcut = new HashMap<String, String>();
 
-    public List<TraceLoggerPointcut> getPointcut() {
+    public Map<String, String> getPointcut() {
         return pointcut;
-    }
-
-    public static class TraceLoggerPointcut {
-        private String name;
-        private String pointcutExpression;
-
-        public TraceLoggerPointcut() { }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPointcutExpression() {
-            return pointcutExpression;
-        }
-
-        public void setPointcutExpression(String pointcutExpression) {
-            this.pointcutExpression = pointcutExpression;
-        }
     }
 }
