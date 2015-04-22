@@ -30,10 +30,8 @@ import spock.lang.Specification
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = TestApplication)
 @WebIntegrationTest(["logging.level.com.capgemini.boot.trace.TestApplication=TRACE",
 					 "server.port=0",
-					 "trace-logging.pointcut[0].name=test1",
-					 "trace-logging.pointcut[0].pointcutExpression=execution(* getMessageWithoutAnnotation())",
-		             "trace-logging.pointcut[1].name=test2",
-					 "trace-logging.pointcut[1].pointcutExpression=execution(* getAnotherMessageWithoutAnnotation())"])
+					 "trace-logging.pointcut.test1=execution(* getMessageWithoutAnnotation())",
+		             "trace-logging.pointcut.test2=execution(* getAnotherMessageWithoutAnnotation())"])
 class TraceLoggerRegistrarSpec extends Specification {
 
     @Value('${local.server.port}')

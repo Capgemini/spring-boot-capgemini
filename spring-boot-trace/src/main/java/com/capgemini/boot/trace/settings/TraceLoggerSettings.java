@@ -18,8 +18,8 @@ package com.capgemini.boot.trace.settings;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Trace Logger configuration backed by properties.
@@ -40,13 +40,13 @@ public final class TraceLoggerSettings {
     
     public static final String ENABLED_SETTING = "enabled";
 
-    private List<TraceLoggerPointcut> pointcut = new ArrayList<TraceLoggerPointcut>();
+    private Map<String, String> pointcut = new HashMap<String, String>();
     
     private Message message = new Message();
     
     private boolean enabled = true;
 
-    public List<TraceLoggerPointcut> getPointcut() {
+    public Map<String, String> getPointcut() {
         return pointcut;
     }
     

@@ -47,7 +47,8 @@ class TraceLoggerConfigurationSpec extends Specification {
 		
 		expect:
         bean.pointcut instanceof ExpressionPointcut
-        ((ExpressionPointcut) bean.pointcut).expression == "@annotation(com.capgemini.boot.trace.annotation.Trace) or within(@com.capgemini.boot.trace.annotation.Trace *)"
+        ((ExpressionPointcut) bean.pointcut).expression == "@annotation(com.capgemini.boot.trace.annotation.Trace) or" +
+                " within(@com.capgemini.boot.trace.annotation.Trace *)"
     }
 	
 	def "trace interceptor bean exists with correct properties set"() {
@@ -128,7 +129,8 @@ class TraceLoggerConfigurationSpec extends Specification {
 
         then:
         output.toString().contains("Entering getMessageWithAnnotationThrowingException()")
-        output.toString().contains("Exception when executing getMessageWithAnnotationThrowingException(): java.lang.RuntimeException")
+        output.toString().contains(
+            "Exception when executing getMessageWithAnnotationThrowingException(): java.lang.RuntimeException")
 
         cleanup:
         System.out = origOut

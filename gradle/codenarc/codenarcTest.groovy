@@ -16,7 +16,6 @@
 
 ruleset {
   // rulesets/basic.xml
-  /*
   AssertWithinFinallyBlock
   AssignmentInConditional
   BigDecimalInstantiation
@@ -59,7 +58,6 @@ ruleset {
   RemoveAllOnSelf
   ReturnFromFinallyBlock
   ThrowExceptionFromFinallyBlock
-  */
 
   // rulesets/braces.xml
   ElseBlockBraces
@@ -98,7 +96,6 @@ ruleset {
   */
 
   // rulesets/convention.xml
-  /*
   ConfusingTernary
   CouldBeElvis
   HashtableIsObsolete
@@ -108,7 +105,6 @@ ruleset {
   ParameterReassignment
   TernaryCouldBeElvis
   VectorIsObsolete
-  */
 
   // rulesets/design.xml
   /*
@@ -171,15 +167,17 @@ ruleset {
   */
 
   // rulesets/formatting.xml
-  /*
   BracesForClass
   BracesForForLoop
   BracesForIfElse
   BracesForMethod
   BracesForTryCatchFinally
-  ClassJavadoc
+  //ClassJavadoc
   ClosureStatementOnOpeningLineOfMultipleLineClosure
+  FileEndsWithoutNewline
   LineLength
+  MissingBlankLineAfterImports
+  MissingBlankLineAfterPackage
   SpaceAfterCatch
   SpaceAfterClosingBrace
   SpaceAfterComma
@@ -194,7 +192,6 @@ ruleset {
   SpaceAroundOperator
   SpaceBeforeClosingBrace
   SpaceBeforeOpeningBrace
-  */
 
   // rulesets/generic.xml
   /*
@@ -223,7 +220,6 @@ ruleset {
   */
 
   // rulesets/groovyism.xml
-  /*
   AssignCollectionSort
   AssignCollectionUnique
   ClosureAsLastMethodParameter
@@ -256,7 +252,6 @@ ruleset {
   GroovyLangImmutable
   UseCollectMany
   UseCollectNested
-  */
 
   // rulesets/imports.xml
   DuplicateImport
@@ -394,7 +389,7 @@ ruleset {
   UnnecessaryFinalOnPrivateMethod
   UnnecessaryFloatInstantiation
 //  UnnecessaryGString
-//  UnnecessaryGetter
+  UnnecessaryGetter
   UnnecessaryIfStatement
   UnnecessaryInstanceOfCheck
   UnnecessaryInstantiationToGetClass
@@ -405,7 +400,7 @@ ruleset {
   UnnecessaryNullCheckBeforeInstanceOf
   UnnecessaryObjectReferences
   UnnecessaryOverridingMethod
-//  UnnecessaryPackageReference
+  UnnecessaryPackageReference
   UnnecessaryParenthesesForMethodCallWithClosure
 //  UnnecessaryPublicModifier
 //  UnnecessaryReturnKeyword

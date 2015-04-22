@@ -34,9 +34,9 @@ import spock.lang.Specification
  */
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = TestApplication)
 @WebIntegrationTest(["logging.level.com.capgemini.boot.trace.TestApplication=TRACE", "server.port=0",
-                     "trace-logging.message.enter=Entering customized \$[methodName](\$[arguments])",
-                     "trace-logging.message.exit=Exiting customized \$[methodName](), returned \$[returnValue]",
-                     "trace-logging.message.exception=Exception customized when executing \$[methodName](): \$[exception]"])
+                "trace-logging.message.enter=Entering customized \$[methodName](\$[arguments])",
+                "trace-logging.message.exit=Exiting customized \$[methodName](), returned \$[returnValue]",
+                "trace-logging.message.exception=Exception customized when executing \$[methodName](): \$[exception]"])
 class TraceLoggerConfigurationMessagesSpec extends Specification {
         
     @Value('${local.server.port}')
@@ -90,7 +90,9 @@ class TraceLoggerConfigurationMessagesSpec extends Specification {
 
         then:
         output.toString().contains("Entering customized getMessageWithAnnotationThrowingException()")
-        output.toString().contains("Exception customized when executing getMessageWithAnnotationThrowingException(): java.lang.RuntimeException")
+        output.toString().contains(
+            "Exception customized when executing getMessageWithAnnotationThrowingException(): "
+                + "java.lang.RuntimeException")
 
         cleanup:
         System.out = origOut
