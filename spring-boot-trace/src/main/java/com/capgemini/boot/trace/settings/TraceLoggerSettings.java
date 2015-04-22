@@ -61,29 +61,6 @@ public final class TraceLoggerSettings {
     public boolean getEnabled() {
         return enabled;
     }
-
-    public static class TraceLoggerPointcut {
-        private String name;
-        private String pointcutExpression;
-
-        public TraceLoggerPointcut() { }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPointcutExpression() {
-            return pointcutExpression;
-        }
-
-        public void setPointcutExpression(String pointcutExpression) {
-            this.pointcutExpression = pointcutExpression;
-        }
-    }
     
     public static class Message {
         private String enter = DEFAULT_ENTER_MESSAGE;
@@ -114,8 +91,6 @@ public final class TraceLoggerSettings {
 
         public void setException(String exception) {
             this.exception = exception;
-        }
-        
-        
+        }        
     }
 }
