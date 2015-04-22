@@ -15,7 +15,6 @@
 */
 package com.capgemini.boot.trace;
 
-import com.capgemini.boot.trace.settings.TraceLoggerSettings;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -23,6 +22,8 @@ import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.core.type.AnnotationMetadata;
+
+import com.capgemini.boot.trace.settings.TraceLoggerSettings;
 
 /**
  * Configures trace logging for enabled spring-boot applications for configured
@@ -57,14 +58,16 @@ public class TraceLoggerRegistrar extends SettingsBackedRegistrar<TraceLoggerSet
      * @param pointcut
      *            The pointcut for the advisor
      */
-    private static void registerAdvisor(BeanDefinitionRegistry registry,
+    private void registerAdvisor(BeanDefinitionRegistry registry,
                                         TraceLoggerSettings.TraceLoggerPointcut pointcut) {
-        registry.registerBeanDefinition(
-                createAdvisorBeanName(pointcut.getName()),
-                createAdvisorBeanDefinition(pointcut.getPointcutExpression()));
+        if (getSettings().getEnabled()) {
+            registry.registerBeanDefinition(
+                    createAdvisorBeanName(pointcut.getName()),
+                    createAdvisorBeanDefinition(pointcut.getPointcutExpression()));
+        }
     }
 
-    private static BeanDefinition createAdvisorBeanDefinition(String pointcutExpression) {
+    private BeanDefinition createAdvisorBeanDefinition(String pointcutExpression) {
         final GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
         beanDefinition
                 .setConstructorArgumentValues(createAdvisorConstructorArguments(pointcutExpression));
@@ -73,7 +76,7 @@ public class TraceLoggerRegistrar extends SettingsBackedRegistrar<TraceLoggerSet
         return beanDefinition;
     }
 
-    private static ConstructorArgumentValues createAdvisorConstructorArguments(
+    private ConstructorArgumentValues createAdvisorConstructorArguments(
             String pointcutExpression) {
         final ConstructorArgumentValues constructorValues = new ConstructorArgumentValues();
 
@@ -81,12 +84,12 @@ public class TraceLoggerRegistrar extends SettingsBackedRegistrar<TraceLoggerSet
         pointcut.setExpression(pointcutExpression);
 
         constructorValues.addIndexedArgumentValue(0, pointcut);
-        constructorValues.addIndexedArgumentValue(1, TraceLoggerConfigurationUtils.createTraceInterceptor());
+        constructorValues.addIndexedArgumentValue(1, TraceLoggerConfigurationUtils.createTraceInterceptor(getSettings()));
 
         return constructorValues;
     }
 
-    private static String createAdvisorBeanName(String pointcutName) {
+    private String createAdvisorBeanName(String pointcutName) {
         return pointcutName + ADVISOR_BEAN_SUFFIX;
     }
 }

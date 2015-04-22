@@ -115,4 +115,22 @@ class TraceLoggerConfigurationSpec extends Specification {
         cleanup:
         System.out = origOut
     }
+    
+    def "can trace exception"() {
+        given:
+        def output = new ByteArrayOutputStream()
+
+        def origOut = System.out
+        System.out = new PrintStream(output, true)
+
+        when:
+        restTemplate.getForEntity("http://localhost:$serverPort/exception", String)
+
+        then:
+        output.toString().contains("Entering getMessageWithAnnotationThrowingException()")
+        output.toString().contains("Exception when executing getMessageWithAnnotationThrowingException(): java.lang.RuntimeException")
+
+        cleanup:
+        System.out = origOut
+    }
 }

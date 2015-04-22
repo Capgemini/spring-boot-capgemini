@@ -15,17 +15,19 @@
 */
 package com.capgemini.boot.trace;
 
-import com.capgemini.boot.trace.settings.TraceLoggerSettings;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.interceptor.AbstractTraceInterceptor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
+import com.capgemini.boot.trace.settings.TraceLoggerSettings;
 
 /**
  * Configures basic trace logging for enabled spring-boot applications.
@@ -35,7 +37,9 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @Configuration
 @EnableConfigurationProperties
 @ComponentScan
-@EnableAspectJAutoProxy(proxyTargetClass = true)
+@EnableAspectJAutoProxy
+//I would much rather call isEnabled from the settings bean in an expression here, but the bean isn't available
+@ConditionalOnProperty(prefix = TraceLoggerSettings.SETTINGS_PREFIX, value = TraceLoggerSettings.ENABLED_SETTING, matchIfMissing = true)
 public class TraceLoggerConfiguration {
 
     @Autowired
@@ -43,7 +47,7 @@ public class TraceLoggerConfiguration {
 
     @Bean(name = "traceInterceptor")
     public AbstractTraceInterceptor customizableTraceInterceptor() {
-        return TraceLoggerConfigurationUtils.createTraceInterceptor();
+        return TraceLoggerConfigurationUtils.createTraceInterceptor(settings);
     }
 
     @Bean(name = "traceAnnotationAdvisor")

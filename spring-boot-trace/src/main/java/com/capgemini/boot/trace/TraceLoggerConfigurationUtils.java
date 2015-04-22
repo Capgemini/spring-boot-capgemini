@@ -18,6 +18,8 @@ package com.capgemini.boot.trace;
 import org.springframework.aop.interceptor.AbstractTraceInterceptor;
 import org.springframework.aop.interceptor.CustomizableTraceInterceptor;
 
+import com.capgemini.boot.trace.settings.TraceLoggerSettings;
+
 /**
  * Utility methods for trace logger configuration.
  *
@@ -34,11 +36,12 @@ public final class TraceLoggerConfigurationUtils {
      * 
      * @return The created trace interceptor
      */
-    public static AbstractTraceInterceptor createTraceInterceptor() {
+    public static AbstractTraceInterceptor createTraceInterceptor(TraceLoggerSettings settings) {
         CustomizableTraceInterceptor customizableTraceInterceptor = new CustomizableTraceInterceptor();
         customizableTraceInterceptor.setUseDynamicLogger(true);
-        customizableTraceInterceptor.setEnterMessage("Entering $[methodName]($[arguments])");
-        customizableTraceInterceptor.setExitMessage("Leaving  $[methodName](), returned $[returnValue]");
+        customizableTraceInterceptor.setEnterMessage(settings.getMessage().getEnter());
+        customizableTraceInterceptor.setExitMessage(settings.getMessage().getExit());
+        customizableTraceInterceptor.setExceptionMessage(settings.getMessage().getException());
         return customizableTraceInterceptor;
     }
 }

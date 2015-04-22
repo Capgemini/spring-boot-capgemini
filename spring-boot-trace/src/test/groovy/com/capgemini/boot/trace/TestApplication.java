@@ -17,6 +17,7 @@ package com.capgemini.boot.trace;
 
 import com.capgemini.boot.trace.annotation.EnableTraceLogger;
 import com.capgemini.boot.trace.annotation.Trace;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -53,6 +54,11 @@ public class TestApplication {
     String classLevelAnnotation() {
         return classLevelTrace.getMessage();
     }
+    
+    @RequestMapping("/exception")
+    String exception() {
+        return foo.getMessageWithAnnotationThrowingException();
+    }
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(TestApplication.class, args);
@@ -67,6 +73,11 @@ public class TestApplication {
         @Trace
         public String getMessageWithAnnotation() {
             return "Hello World!";
+        }
+        
+        @Trace
+        public String getMessageWithAnnotationThrowingException() {
+            throw new RuntimeException();
         }
 
         public String getMessageWithoutAnnotation() {

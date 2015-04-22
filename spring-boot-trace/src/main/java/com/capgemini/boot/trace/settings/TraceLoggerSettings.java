@@ -29,12 +29,37 @@ import java.util.List;
 @Component
 @ConfigurationProperties(prefix = TraceLoggerSettings.SETTINGS_PREFIX)
 public final class TraceLoggerSettings {
+    
+    private static final String DEFAULT_ENTER_MESSAGE = "Entering $[methodName]($[arguments])";
+    
+    private static final String DEFAULT_EXIT_MESSAGE = "Leaving  $[methodName](), returned $[returnValue]";
+    
+    private static final String DEFAULT_EXCEPTION_MESSAGE = "Exception when executing $[methodName](): $[exception]";
+    
     public static final String SETTINGS_PREFIX = "trace-logging";
+    
+    public static final String ENABLED_SETTING = "enabled";
 
     private List<TraceLoggerPointcut> pointcut = new ArrayList<TraceLoggerPointcut>();
+    
+    private Message message = new Message();
+    
+    private boolean enabled = true;
 
     public List<TraceLoggerPointcut> getPointcut() {
         return pointcut;
+    }
+    
+    public Message getMessage() {
+        return message;
+    }
+    
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
+    public boolean getEnabled() {
+        return enabled;
     }
 
     public static class TraceLoggerPointcut {
@@ -58,5 +83,39 @@ public final class TraceLoggerSettings {
         public void setPointcutExpression(String pointcutExpression) {
             this.pointcutExpression = pointcutExpression;
         }
+    }
+    
+    public static class Message {
+        private String enter = DEFAULT_ENTER_MESSAGE;
+        
+        private String exit = DEFAULT_EXIT_MESSAGE;
+        
+        private String exception = DEFAULT_EXCEPTION_MESSAGE;
+
+        public String getEnter() {
+            return enter;
+        }
+
+        public void setEnter(String enter) {
+            this.enter = enter;
+        }
+
+        public String getExit() {
+            return exit;
+        }
+
+        public void setExit(String exit) {
+            this.exit = exit;
+        }
+
+        public String getException() {
+            return exception;
+        }
+
+        public void setException(String exception) {
+            this.exception = exception;
+        }
+        
+        
     }
 }
