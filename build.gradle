@@ -7,12 +7,15 @@ apply from: "gradle/dependencies.gradle"
 buildscript {
 }
 
+allprojects {
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+}
+
 subprojects {
     apply plugin: "base"
     apply plugin: 'java'
     apply plugin: "groovy"
-    apply plugin: 'eclipse'
-    apply plugin: 'idea'
     apply from: "${rootDir}/gradle/codenarc.gradle"
     apply from: "${rootDir}/gradle/checkstyle.gradle"
 
