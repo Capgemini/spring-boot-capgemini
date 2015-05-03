@@ -13,17 +13,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package hello;
+package com.capgemini.boot.trace.sample.video.repository;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.Collection;
 
-@RestController
-public class HelloController {
-    
-    @RequestMapping("/")
-    public String index() {
-        return "Greetings from Spring Boot!";
-    }
-    
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * An interface for a repository that can store Video objects and allow them to
+ * be searched by title.
+ * 
+ * @author jules
+ *
+ */
+@Repository
+public interface VideoRepository extends CrudRepository<Video, Long> {
+
+    // Find all videos with a matching title (e.g., Video.name)
+    public Collection<Video> findByName(String title);
+
 }
