@@ -17,11 +17,6 @@ package com.capgemini.boot.trace.sample.video.client;
 
 import java.util.Collection;
 
-import retrofit.http.Body;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Query;
-
 import com.capgemini.boot.trace.sample.video.repository.Video;
 
 /**
@@ -39,12 +34,9 @@ public interface VideoSvcApi {
     // The path to search videos by title
     public static final String VIDEO_TITLE_SEARCH_PATH = VIDEO_SVC_PATH + "/find";
 
-    @GET(VIDEO_SVC_PATH)
     public Collection<Video> getVideoList();
     
-    @POST(VIDEO_SVC_PATH)
-    public boolean addVideo(@Body Video v);
+    public boolean addVideo(Video v);
     
-    @GET(VIDEO_TITLE_SEARCH_PATH)
-    public Collection<Video> findByTitle(@Query(TITLE_PARAMETER) String title);
+    public Collection<Video> findByTitle(String title);
 }

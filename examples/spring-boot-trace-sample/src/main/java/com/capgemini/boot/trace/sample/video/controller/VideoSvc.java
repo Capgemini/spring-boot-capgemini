@@ -18,12 +18,12 @@ package com.capgemini.boot.trace.sample.video.controller;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.boot.trace.sample.video.client.VideoSvcApi;
 import com.capgemini.boot.trace.sample.video.repository.Video;
@@ -49,8 +49,7 @@ import com.google.common.collect.Lists;
 
 // Tell Spring that this class is a Controller that should
 // handle certain HTTP requests for the DispatcherServlet
-@Controller
-//@Trace
+@RestController
 public class VideoSvc implements VideoSvcApi {
     // The VideoRepository that we are going to store our videos
     // in. We don't explicitly construct a VideoRepository, but

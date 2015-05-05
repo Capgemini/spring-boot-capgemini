@@ -13,25 +13,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package com.capgemini.boot.trace.sample.video;
+package com.capgemini.boot.trace.sample;
+
+import java.util.Arrays;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.context.ApplicationContext;
 
-import com.capgemini.boot.trace.annotation.EnableTraceLogger;
-import com.capgemini.boot.trace.sample.video.repository.VideoRepository;
-
-
-// Tell Spring to automatically create a JPA implementation of our
-// VideoRepository
-@EnableJpaRepositories(basePackageClasses = VideoRepository.class)
 @SpringBootApplication
-@EnableTraceLogger
 public class Application {
     
-    // Tell Spring to launch our app!
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        ApplicationContext ctx = SpringApplication.run(Application.class, args);
+        
+        System.out.println("Let's inspect the beans provided by Spring Boot:");
+        
+        String[] beanNames = ctx.getBeanDefinitionNames();
+        Arrays.sort(beanNames);
+        for (String beanName : beanNames) {
+            System.out.println(beanName);
+        }
     }
+
 }
