@@ -1,8 +1,16 @@
+buildscript {
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+    }
+    repositories {
+        jcenter()
+    }
+}
+
+apply plugin: 'spring-boot'
+
 dependencies {
-
     compile("org.springframework.boot:spring-boot-starter-web:${commonVersions.springBoot}")
-    runtime("org.springframework.boot:spring-boot-starter-jetty:${commonVersions.springBoot}")
-
     compile("org.springframework.boot:spring-boot-starter-actuator:${commonVersions.springBoot}")
     compile("org.springframework.boot:spring-boot-starter-aop:${commonVersions.springBoot}")
     compile("org.springframework.boot:spring-boot-starter-test:${commonVersions.springBoot}")
@@ -16,14 +24,6 @@ dependencies {
     
     compile("com.google.guava:guava:17.0")
     compile("commons-io:commons-io:2.4")
-}
 
-buildscript {
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
-    }
-    repositories {
-        jcenter()
-    }
+    runtime("org.springframework.boot:spring-boot-starter-jetty:${commonVersions.springBoot}")
 }
-apply plugin: 'spring-boot'

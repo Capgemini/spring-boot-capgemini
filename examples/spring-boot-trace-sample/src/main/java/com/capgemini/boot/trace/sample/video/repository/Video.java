@@ -15,18 +15,15 @@
 */
 package com.capgemini.boot.trace.sample.video.repository;
 
+import com.google.common.base.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.google.common.base.Objects;
-
 /**
  * A simple object to represent a video and its URL for viewing.
- * 
- * @author jules
- * 
  */
 @Entity
 public class Video {
@@ -110,4 +107,13 @@ public class Video {
         }
     }
 
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("url", url)
+                .add("duration", duration)
+                .toString();
+    }
 }

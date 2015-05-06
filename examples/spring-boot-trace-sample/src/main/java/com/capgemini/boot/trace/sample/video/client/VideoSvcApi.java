@@ -15,28 +15,26 @@
 */
 package com.capgemini.boot.trace.sample.video.client;
 
-import java.util.Collection;
-
 import com.capgemini.boot.trace.sample.video.repository.Video;
+
+import java.util.Collection;
 
 /**
  * This interface defines an API for a VideoSvc. The interface is used to
  * provide a contract for client/server interactions. 
- * @author jules
- *
  */
 public interface VideoSvcApi {
-    public static final String TITLE_PARAMETER = "title";
+    String TITLE_PARAMETER = "title";
 
     // The path where we expect the VideoSvc to live
-    public static final String VIDEO_SVC_PATH = "/video";
+    String VIDEO_SVC_PATH = "/video";
 
     // The path to search videos by title
-    public static final String VIDEO_TITLE_SEARCH_PATH = VIDEO_SVC_PATH + "/find";
+    String VIDEO_TITLE_SEARCH_PATH = VIDEO_SVC_PATH + "/find";
 
-    public Collection<Video> getVideoList();
+    Collection<Video> getVideoList();
     
-    public boolean addVideo(Video v);
+    boolean addVideo(Video v);
     
-    public Collection<Video> findByTitle(String title);
+    Collection<Video> findByTitle(String title);
 }

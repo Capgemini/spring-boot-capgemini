@@ -25,7 +25,7 @@
         <!--<property name="basicOffset" value="2"/>-->
       <!--</module>-->
 
-      <!-- Blocks -->
+        <!-- Blocks -->
         <module name="EmptyBlock">
             <property name="option" value="stmt"/>
             <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,INSTANCE_INIT,STATIC_INIT"/>
@@ -75,6 +75,7 @@
         <module name="SimplifyBooleanReturn"/>
         <module name="StringLiteralEquality"/>
         <module name="UnnecessaryParentheses"/>
+        <module name="RedundantModifier"/>
 
         <!-- Design -->
         <module name="InterfaceIsType"/>
@@ -114,6 +115,9 @@
     </module>
     <module name="RegexpSingleline">
         <property name="format" value="Created with IntelliJ IDEA"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="@author"/>
     </module>
 
     <!-- allows suppressing using the //CHECKSTYLE:ON //CHECKSTYLE:OFF -->

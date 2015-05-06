@@ -15,20 +15,14 @@
 */
 package com.capgemini.boot.trace.sample.video.controller;
 
-import java.util.Collection;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.capgemini.boot.trace.sample.video.client.VideoSvcApi;
 import com.capgemini.boot.trace.sample.video.repository.Video;
 import com.capgemini.boot.trace.sample.video.repository.VideoRepository;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 /**
  * This simple VideoSvc allows clients to send HTTP POST requests with videos
@@ -42,9 +36,6 @@ import com.google.common.collect.Lists;
  * aspect of this version is that we have defined a VideoSvcApi that provides
  * strong typing on both the client and service interface to ensure that we
  * don't send the wrong paraemters, etc.
- * 
- * @author jules
- *
  */
 
 // Tell Spring that this class is a Controller that should
