@@ -10,15 +10,15 @@ buildscript {
 apply plugin: 'spring-boot'
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:${commonVersions.springBoot}")
-    compile("org.springframework.boot:spring-boot-starter-actuator:${commonVersions.springBoot}")
-    compile("org.springframework.boot:spring-boot-starter-aop:${commonVersions.springBoot}")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa:${commonVersions.springBoot}")
-    compile("com.h2database:h2:1.4.187")
-    compile("com.google.guava:guava:17.0")
+    compile "org.springframework.boot:spring-boot-starter-web:${commonVersions.springBoot}"
+    compile "org.springframework.boot:spring-boot-starter-actuator:${commonVersions.springBoot}"
+    compile "org.springframework.boot:spring-boot-starter-aop:${commonVersions.springBoot}"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:${commonVersions.springBoot}"
+    compile "com.h2database:h2:1.4.187"
+    compile "com.google.guava:guava:17.0"
     compile project(":spring-boot-trace")
 
-    runtime("org.springframework.boot:spring-boot-starter-jetty:${commonVersions.springBoot}")
+    runtime "org.springframework.boot:spring-boot-starter-jetty:${commonVersions.springBoot}"
 
-    testCompile("org.springframework.boot:spring-boot-starter-test:${commonVersions.springBoot}")
+    testCompile "org.springframework.boot:spring-boot-starter-test:${commonVersions.springBoot}"
 }
