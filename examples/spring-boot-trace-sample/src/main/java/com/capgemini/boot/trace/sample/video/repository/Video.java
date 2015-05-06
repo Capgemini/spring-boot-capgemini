@@ -25,9 +25,11 @@ import javax.persistence.Id;
 /**
  * A simple object to represent a video and its URL for viewing.
  */
+//Mark this class as a JPA entity
 @Entity
 public class Video {
 
+    // specify auto generated primary key of the entity
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -85,7 +87,6 @@ public class Video {
      */
     @Override
     public int hashCode() {
-        // Google Guava provides great utilities for hashing
         return Objects.hashCode(name, url, duration);
     }
 
@@ -98,7 +99,6 @@ public class Video {
     public boolean equals(Object obj) {
         if (obj instanceof Video) {
             Video other = (Video) obj;
-            // Google Guava provides great utilities for equals too!
             return Objects.equal(name, other.name)
                     && Objects.equal(url, other.url)
                     && duration == other.duration;

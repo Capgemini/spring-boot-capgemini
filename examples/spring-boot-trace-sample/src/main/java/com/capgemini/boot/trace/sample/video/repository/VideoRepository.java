@@ -27,7 +27,12 @@ import java.util.Collection;
 @Repository
 public interface VideoRepository extends CrudRepository<Video, Long> {
 
-    // Find all videos with a matching title (e.g., Video.name)
+    /**
+     * Find all videos with a matching title
+     * 
+     * @param title video title (e.g., Video.name)
+     * @return Collection of matching Video objects
+     */
     Collection<Video> findByName(String title);
 
 }

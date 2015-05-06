@@ -20,21 +20,43 @@ import com.capgemini.boot.trace.sample.video.repository.Video;
 import java.util.Collection;
 
 /**
- * This interface defines an API for a VideoSvc. The interface is used to
+ * Defines an API for a Video service. The interface is used to
  * provide a contract for client/server interactions. 
  */
 public interface VideoSvcApi {
+    
+    /** the title parameter used in the REST-ful URL for finding a video by its title */ 
     String TITLE_PARAMETER = "title";
 
-    // The path where we expect the VideoSvc to live
+    /** The path used to access the VideoSvc controller */
     String VIDEO_SVC_PATH = "/video";
 
-    // The path to search videos by title
+    /** The path used to access the find method on the VideoSvc controller */
     String VIDEO_TITLE_SEARCH_PATH = VIDEO_SVC_PATH + "/find";
 
+    
+    /**
+     * Returns the current list of videos.  Returns an empty collection if no videos exist 
+     * 
+     * @return the collection of Video objects
+     */
     Collection<Video> getVideoList();
+
     
-    boolean addVideo(Video v);
+    /**                                               
+     * Adds the specified video to the list of videos.
+     * 
+     * @param video the Video to add to the list
+     * @return true if video was added successfully, false otherwise
+     */
+    boolean addVideo(Video video);
     
+    /**
+     * Returns a collection of videos matching the specified title.
+     * Returns an empty collection if no videos are matched
+     * 
+     * @param title the title of the video to search for
+     * @return the collection of video objects
+     */
     Collection<Video> findByTitle(String title);
 }

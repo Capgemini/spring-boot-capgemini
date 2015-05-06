@@ -23,14 +23,13 @@ import com.capgemini.boot.trace.annotation.EnableTraceLogger;
 import com.capgemini.boot.trace.sample.video.repository.VideoRepository;
 
 
-// Tell Spring to automatically create a JPA implementation of our
-// VideoRepository
+// Tell Spring to automatically create a JPA implementation of VideoRepository
 @EnableJpaRepositories(basePackageClasses = VideoRepository.class)
+// This is a convenience annotation that is equivalent to declaring @Configuration, @EnableAutoConfiguration and @ComponentScan.
 @SpringBootApplication
+// Enable configurable logging of method entry/exit points
 @EnableTraceLogger
 public class Application {
-    
-    // Tell Spring to launch our app!
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

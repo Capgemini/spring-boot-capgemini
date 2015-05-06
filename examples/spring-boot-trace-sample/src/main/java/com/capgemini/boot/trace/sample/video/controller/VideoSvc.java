@@ -30,12 +30,6 @@ import java.util.Collection;
  * receive a JSON listing of the videos that have been sent to the controller so
  * far. Stopping the controller will cause it to lose the history of videos that
  * have been sent to it because they are stored in memory.
- * 
- * Notice how much simpler this VideoSvc is than the original VideoServlet?
- * Spring allows us to dramatically simplify our service. Another important
- * aspect of this version is that we have defined a VideoSvcApi that provides
- * strong typing on both the client and service interface to ensure that we
- * don't send the wrong paraemters, etc.
  */
 
 // Tell Spring that this class is a Controller that should
@@ -70,6 +64,7 @@ public class VideoSvc implements VideoSvcApi {
     // client and service paths for the VideoSvc are always
     // in synch.
     //
+    @Override
     @RequestMapping(value = VideoSvcApi.VIDEO_SVC_PATH, method = RequestMethod.POST)
     public @ResponseBody boolean addVideo(@RequestBody Video v) {
         videos.save(v);
@@ -80,6 +75,7 @@ public class VideoSvc implements VideoSvcApi {
     // list of videos in memory. Spring automatically converts
     // the list of videos to JSON because of the @ResponseBody
     // annotation.
+    @Override
     @RequestMapping(value = VideoSvcApi.VIDEO_SVC_PATH, method = RequestMethod.GET)
     public @ResponseBody Collection<Video> getVideoList() {
         return Lists.newArrayList(videos.findAll());
@@ -88,12 +84,15 @@ public class VideoSvc implements VideoSvcApi {
     // Receives GET requests to /video/find and returns all Videos
     // that have a title (e.g., Video.name) matching the "title" request
     // parameter value that is passed by the client
+    @Override
     @RequestMapping(value = VideoSvcApi.VIDEO_TITLE_SEARCH_PATH, method = RequestMethod.GET)
     public @ResponseBody Collection<Video> findByTitle(
     // Tell Spring to use the "title" parameter in the HTTP request's query
     // string as the value for the title method parameter
             @RequestParam(TITLE_PARAMETER) String title) {
+        if (title == null || title.equals("")) {
+            throw new IllegalArgumentException("Video title cannot be null");
+        }
         return videos.findByName(title);
     }
-
 }
