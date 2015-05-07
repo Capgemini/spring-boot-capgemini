@@ -183,9 +183,10 @@ public class SettingBackedBeanFactoryPostProcessor implements BeanDefinitionRegi
         final ConstructorArgumentValues arguments = new ConstructorArgumentValues();
         arguments.addIndexedArgumentValue(0, setting);
         
-        if (factoryMethod.getParameterCount() == 2) {
+        final int parameterCount = factoryMethod.getParameterTypes().length;
+        if (parameterCount == 2) {
             arguments.addIndexedArgumentValue(1, settings);
-        } else if (factoryMethod.getParameterCount() > 2) {
+        } else if (parameterCount > 2) {
             throw exceptionFactory.createInvalidArgumentsException(factoryMethod);
         }
         
