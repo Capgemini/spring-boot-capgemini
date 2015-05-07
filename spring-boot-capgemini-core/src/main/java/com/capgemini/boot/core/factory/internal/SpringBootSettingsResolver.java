@@ -14,52 +14,32 @@
 * limitations under the License.
 */
 
-package com.capgemini.boot.trace;
+package com.capgemini.boot.core.factory.internal;
 
 import org.springframework.beans.FatalBeanException;
 import org.springframework.boot.bind.PropertiesConfigurationFactory;
-import org.springframework.context.EnvironmentAware;
-import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.Environment;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import com.capgemini.boot.core.factory.SettingsResolver;
 
-public abstract class SettingsBackedRegistrar<T> implements ImportBeanDefinitionRegistrar, EnvironmentAware {
-    private ConfigurableEnvironment environment;
-    private T settings;
+public class SpringBootSettingsResolver implements SettingsResolver {
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = (ConfigurableEnvironment)environment;
-    }
-
-    protected T getSettings() {
-        if (this.settings == null) {
-            this.settings = resolveSettings();
-        }
-        return this.settings;
-    }
-
-    protected abstract String getPropertyPrefix();
-
-    private T resolveSettings() {
+    public <T> T resolveSettings(Class<T> settingsClass, String prefix, ConfigurableEnvironment environment) {
         try {
-            Type type = getClass().getGenericSuperclass();
-            ParameterizedType p = (ParameterizedType) type;
-            Class settingsType = (Class) p.getActualTypeArguments()[0];
-            T newSettings = (T) Class.forName(settingsType.getName()).newInstance();
-
+            T newSettings = (T) Class.forName(settingsClass.getName()).newInstance();
+    
             PropertiesConfigurationFactory<Object> factory = new PropertiesConfigurationFactory<Object>(newSettings);
-            factory.setTargetName(getPropertyPrefix());
+            factory.setTargetName(prefix);
             factory.setPropertySources(environment.getPropertySources());
             factory.setConversionService(environment.getConversionService());
             factory.bindPropertiesToTarget();
-
+    
             return newSettings;
         } catch (Exception ex) {
             throw new FatalBeanException("Could not bind DataSourceSettings properties", ex);
         }
     }
+
 }

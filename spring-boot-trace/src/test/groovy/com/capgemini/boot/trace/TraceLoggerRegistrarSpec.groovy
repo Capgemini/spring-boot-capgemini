@@ -48,7 +48,7 @@ class TraceLoggerRegistrarSpec extends Specification {
 		
 		expect:
         bean.pointcut instanceof ExpressionPointcut
-        ((ExpressionPointcut) bean.pointcut).expression == "execution(* getMessageWithoutAnnotation())"
+        ((ExpressionPointcut) bean.pointcut).expression.contains("execution(* getMessageWithoutAnnotation())")
     }
 	
 	def "second pointcut advisor bean exists"() {
@@ -57,7 +57,7 @@ class TraceLoggerRegistrarSpec extends Specification {
 		
 		expect:
 		bean.pointcut instanceof ExpressionPointcut
-		((ExpressionPointcut) bean.pointcut).expression == "execution(* getAnotherMessageWithoutAnnotation())"
+		((ExpressionPointcut) bean.pointcut).expression.contains("execution(* getAnotherMessageWithoutAnnotation())")
 	}
 
     def "method matching pointcut is traced"() {

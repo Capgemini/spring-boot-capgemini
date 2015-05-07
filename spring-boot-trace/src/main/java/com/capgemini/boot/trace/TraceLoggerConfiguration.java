@@ -27,6 +27,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
+import com.capgemini.boot.core.factory.EnableSettingBackedBeans;
 import com.capgemini.boot.trace.settings.TraceLoggerSettings;
 
 /**
@@ -35,8 +36,9 @@ import com.capgemini.boot.trace.settings.TraceLoggerSettings;
  * Methods annotated with the @Trace annotation will be traced.
  */
 @Configuration
-@EnableConfigurationProperties
 @ComponentScan
+@EnableConfigurationProperties
+@EnableSettingBackedBeans
 @EnableAspectJAutoProxy
 //I would much rather call isEnabled from the settings bean in an expression here, but the bean isn't available
 @ConditionalOnProperty(prefix = TraceLoggerSettings.SETTINGS_PREFIX, value = TraceLoggerSettings.ENABLED_SETTING, matchIfMissing = true)
@@ -44,6 +46,8 @@ public class TraceLoggerConfiguration {
 
     @Autowired
     private TraceLoggerSettings settings;
+    
+    static final String TRACE_ANNOTATION = "@annotation(com.capgemini.boot.trace.annotation.Trace) or within(@com.capgemini.boot.trace.annotation.Trace *)";
 
     @Bean(name = "traceInterceptor")
     public AbstractTraceInterceptor customizableTraceInterceptor() {
@@ -53,7 +57,7 @@ public class TraceLoggerConfiguration {
     @Bean(name = "traceAnnotationAdvisor")
     public Advisor traceAnnotationAdvisor() {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        pointcut.setExpression("@annotation(com.capgemini.boot.trace.annotation.Trace) or within(@com.capgemini.boot.trace.annotation.Trace *)");
+        pointcut.setExpression(TRACE_ANNOTATION);
 
         return new DefaultPointcutAdvisor(pointcut, customizableTraceInterceptor());
     }
