@@ -2,6 +2,7 @@ include \
     "spring-boot-jsf",
     "spring-boot-web",
     "spring-boot-trace",
-    "spring-boot-trace-sample"
+    "spring-boot-trace-sample",
+	"spring-boot-capgemini-core"
 
 project(':spring-boot-trace-sample').projectDir = new File('examples/spring-boot-trace-sample/')

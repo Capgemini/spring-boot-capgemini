@@ -16,8 +16,7 @@ import spock.lang.Specification
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = TestApplication)
 @WebIntegrationTest(["logging.level.com.capgemini.boot.trace.TestApplication=TRACE", "server.port=0", 
                      "trace-logging.enabled=false",
-                     "trace-logging.pointcut[0].name=test1",
-                     "trace-logging.pointcut[0].pointcutExpression=execution(* getMessageWithoutAnnotation())"])
+                     "trace-logging.pointcut.test1=execution(* getMessageWithoutAnnotation())"])
 class TraceLoggerConfigurationDisabledSpec extends Specification {
 
     @Value('${local.server.port}')
