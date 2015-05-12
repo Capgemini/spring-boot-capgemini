@@ -1,5 +1,4 @@
 include \
-    "spring-boot-jsf",
     "spring-boot-web",
     "spring-boot-trace",
     "spring-boot-trace-sample",
