@@ -1,0 +1,7 @@
+archivesBaseName = 'spring-capgemini-core'
+
+dependencies {
+	compile "org.springframework.boot:spring-boot-starter:${commonVersions.springBoot}"
+	
+    testCompile "org.springframework.boot:spring-boot-starter-test:${commonVersions.springBoot}"
+}

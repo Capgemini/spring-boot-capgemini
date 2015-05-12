@@ -1,0 +1,12 @@
+archivesBaseName = 'spring-capgemini-starter-trace'
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-aop:${commonVersions.springBoot}"
+    compile project(":spring-capgemini-core")
+    
+    testCompile "org.springframework.boot:spring-boot-starter-test:${commonVersions.springBoot}"
+    testCompile("org.springframework.boot:spring-boot-starter-web:${commonVersions.springBoot}") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    testCompile "org.springframework.boot:spring-boot-starter-jetty:${commonVersions.springBoot}"
+}
