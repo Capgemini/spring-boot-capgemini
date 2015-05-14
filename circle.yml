@@ -13,5 +13,7 @@ test:
    - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
 
 deployment:
- override:
-   - ./gradlew artifactoryPublish
+  master:
+    branch: master
+    commands:
+      - ./gradlew artifactoryPublish
