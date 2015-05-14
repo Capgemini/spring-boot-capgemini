@@ -1,4 +1,7 @@
 archivesBaseName = 'spring-capgemini-core'
+description = "spring-capgemini-core"
+
+apply from: "$rootDir/gradle/javaModule.gradle"
 
 dependencies {
 	compile "org.springframework.boot:spring-boot-starter:${commonVersions.springBoot}"

@@ -32,7 +32,7 @@ public final class TraceLoggerConfigurationUtils {
 
     /**
      * Creates a trace interceptor for logging entry into and exit from methods.
-     * 
+     * @param settings the settings
      * @return The created trace interceptor
      */
     public static AbstractTraceInterceptor createTraceInterceptor(TraceLoggerSettings settings) {

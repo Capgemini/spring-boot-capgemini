@@ -23,13 +23,14 @@ import org.springframework.core.env.ConfigurableEnvironment;
  *
  */
 public interface SettingsResolver {
-    
+
     /**
-     * Resolves an instance of a settings class of the specfied type, with a property prefix.
-     * 
+     * Resolves an instance of a settings class of the specified type, with a property prefix.
+     *
      * @param settingsClass The class type to resolve
      * @param prefix The property prefix
      * @param environment The environment
+     * @param <T> the setting class
      * @return The resolved settings class instance
      */
     <T> T resolveSettings(Class<T> settingsClass, String prefix, ConfigurableEnvironment environment);

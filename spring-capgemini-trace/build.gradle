@@ -1,4 +1,7 @@
-archivesBaseName = 'spring-capgemini-starter-trace'
+archivesBaseName = 'trace-spring-boot'
+description = "trace-spring-boot"
+
+apply from: "$rootDir/gradle/javaModule.gradle"
 
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-aop:${commonVersions.springBoot}"

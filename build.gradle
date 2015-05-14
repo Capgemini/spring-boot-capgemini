@@ -1,29 +1,157 @@
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.locks.ReentrantLock
+
 apply from: "gradle/dependencies.gradle"
 
 buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.0"
+    }
 }
 
 allprojects {
+    apply plugin: 'com.jfrog.artifactory-upload'
+    artifactoryPublish {
+        skip true
+    }
+
+    group = "com.capgemini.spring"
+    version = '0.9.1-SNAPSHOT'
+
     apply plugin: 'eclipse'
     apply plugin: 'idea'
+
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    isSnapshot = version.endsWith("SNAPSHOT")
+
+    publishedModules = [
+            "spring-capgemini-core", "spring-capgemini-trace"
+    ].collect { project(it) }
+
+    localRepoUrl = "${buildDir.toURI()}/localrepo"
 }
 
 subprojects {
     apply plugin: "base"
     apply plugin: 'java'
-    apply plugin: "groovy"
-    apply from: "${rootDir}/gradle/codenarc.gradle"
-    apply from: "${rootDir}/gradle/checkstyle.gradle"
 
-    repositories {
-       jcenter()
+    tasks.withType(Upload).matching { it.name != "install" }.all {
+        rootProject.subprojects {
+            mustRunAfter tasks.matching { it instanceof VerificationTask }
+        }
     }
 
-    dependencies {
-        testCompile commonDependencies.spockSpring
+    tasks.withType(Test) {
+        allprojects {
+            mustRunAfter tasks.withType(Checkstyle)
+        }
     }
 
-    sourceCompatibility = 1.7
-    targetCompatibility = 1.7
-    version = '0.9.1-SNAPSHOT'
+    tasks.withType(GroovyCompile) {
+        allprojects {
+            mustRunAfter tasks.withType(CodeNarc)
+        }
+    }
+
+    apply plugin: 'maven'
+    apply from: "${rootDir}/gradle/pom.gradle"
+}
+
+// Have to evaluate the children before setting up the publishing stuff so the dependencies are defined.
+evaluationDependsOnChildren()
+
+subprojects {
+    if (project in publishedModules) {
+        apply plugin: "com.jfrog.artifactory-upload"
+        artifactoryPublish { task ->
+            skip false
+            rootProject.artifactory {
+                contextUrl = 'http://oss.jfrog.org'
+                publish {
+                    repository {
+                        repoKey = isSnapshot ? 'oss-snapshot-local' : 'oss-release-local'
+                        gradle.taskGraph.whenReady { taskGraph ->
+                            if (taskGraph.hasTask(task)) {
+                                username = bintrayUser
+                                password = bintrayApiKey
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        assert description: "Project $project.path is published, must have a description"
+
+        modifyPom {
+            project {
+                name project.name
+                description project.description
+                url "https://github.com/Capgemini/spring-boot-capgemini"
+                licenses {
+                    license {
+                        name "The Apache Software License, Version 2.0"
+                        url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        distribution "repo"
+                    }
+                }
+                scm {
+                    connection "scm:https://capgemini@github.com/capgemini/spring-boot-capgemini"
+                    developerConnection "scm:git@github.com:capgemini/spring-boot-capgemini.git"
+                    url "https://github.com/capgemini/spring-boot-capgemini"
+                }
+                developers {
+                    developer {
+                        id "capgemini"
+                        name "Team Capgemini"
+                    }
+                }
+            }
+        }
+    } else {
+
+    }
+
+    tasks.withType(Test) {
+        testLogging {
+            exceptionFormat "full"
+            events "failed"
+        }
+
+        jvmArgs "-Xss320k"
+        minHeapSize "312m"
+        maxHeapSize "312m"
+    }
+}
+
+// Maven POM generation is not thread safe, so serialize all the Upload tasks we can use `--parallel`.
+def lock = new ReentrantLock()
+def available = lock.newCondition()
+def busy = new AtomicBoolean()
+allprojects {
+    tasks.withType(Upload) { uploadTask ->
+        doFirst {
+            lock.lock()
+            while (busy.get()) {
+                available.await()
+            }
+            busy.set(true)
+        }
+    }
+}
+gradle.taskGraph.afterTask {
+    if (it instanceof Upload && lock.heldByCurrentThread) {
+        busy.set(false)
+        available.signal()
+        lock.unlock()
+    }
 }

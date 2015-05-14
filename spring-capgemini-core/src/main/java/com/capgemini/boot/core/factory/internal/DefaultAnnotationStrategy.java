@@ -24,7 +24,7 @@ import org.springframework.context.ApplicationContext;
 import java.lang.reflect.Method;
 
 /**
- * @SettingBackedBean and @SettingBackedBeanFactory annotation strategy.
+ * {@link SettingBackedBean} and {@link SettingBackedBeanFactory} annotation strategy.
  *
  */
 public class DefaultAnnotationStrategy implements FactoryProcessorStrategy {  
@@ -43,7 +43,7 @@ public class DefaultAnnotationStrategy implements FactoryProcessorStrategy {
     
     @Override
     public String getBeanNameSuffix(Method factoryMethod) {
-        final SettingBackedBean annotation = (SettingBackedBean) factoryMethod.getAnnotation(getFactoryMethodAnnotation());
+        final SettingBackedBean annotation = factoryMethod.getAnnotation(getFactoryMethodAnnotation());
         return annotation.beanNameSuffix();
     }
     
