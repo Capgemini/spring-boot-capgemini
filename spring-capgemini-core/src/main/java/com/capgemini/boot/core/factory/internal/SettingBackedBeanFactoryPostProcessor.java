@@ -165,7 +165,7 @@ public class SettingBackedBeanFactoryPostProcessor implements BeanDefinitionRegi
         try {
             return Class.forName(factoryClassName);
         } catch (ClassNotFoundException e) {
-            throw exceptionFactory.createGenericException("Bean class cannot be found", e);
+            throw getExceptionFactory().createGenericException("Bean class cannot be found", e);
         }
     }
     
@@ -182,7 +182,7 @@ public class SettingBackedBeanFactoryPostProcessor implements BeanDefinitionRegi
         if (parameterCount == 2) {
             arguments.addIndexedArgumentValue(1, settings);
         } else if (parameterCount > 2) {
-            throw exceptionFactory.createInvalidArgumentsException(factoryMethod);
+            throw getExceptionFactory().createInvalidArgumentsException(factoryMethod);
         }
         
         //TODO more checking of method arguments to ensure they're correct
@@ -226,15 +226,15 @@ public class SettingBackedBeanFactoryPostProcessor implements BeanDefinitionRegi
                 registerSettingBackedBeansForSettingInstanceValue(settings, "", returnedSetting, settingsBackedRegistrarBeanName, linkedSCBMethods, registry);
             }
         } catch (NoSuchMethodException e) {
-            throw exceptionFactory.createNoMatchingSettingException(settingName);
+            throw getExceptionFactory().createNoMatchingSettingException(settingName);
         } catch (SecurityException e) {
-            throw exceptionFactory.createGenericException("An exception occured when obtaining setting named " + settingName, e);
+            throw getExceptionFactory().createGenericException("An exception occured when obtaining setting named " + settingName, e);
         } catch (IllegalAccessException e) {
-            throw exceptionFactory.createSettingAccessException(settingName);
+            throw getExceptionFactory().createSettingAccessException(settingName);
         } catch (IllegalArgumentException e) {
-            throw exceptionFactory.createSettingArgumentsException(settingName);
+            throw getExceptionFactory().createSettingArgumentsException(settingName);
         } catch (InvocationTargetException e) {
-            throw exceptionFactory.createGenericException("An exception occured when obtaining setting named " + settingName, e);
+            throw getExceptionFactory().createGenericException("An exception occured when obtaining setting named " + settingName, e);
         }
     }    
 
